@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search box</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-image: url(IMAGES/image-8787878787.jpg);
+            background-size: cover;
+            
+        }
+        
+
+        #title {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: blink 3s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .search-container {
+            position: relative;
+            text-align: center;
+        }
+
+        #searchInput {
+            width: 270px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.986);
+            outline: none;
+            padding-right: 30px;
+        }
+
+        #searchInput:focus {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            font-size: 18px;
+            cursor: pointer;
+            color:  black;
+        }
+
+        #searchResults {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            width: 270px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            border-radius: 10px;
+        }
+
+        #searchResults li {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #searchResults li:hover {
+            background-color: rgba(255, 182, 193, 0.75);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="title">
+        <h1>SEARCH BAR FOR WEBSITE</h1>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search anything...">
+        <div class="search-icon">&#128269;</div>
+        <ul id="searchResults"></ul>
+    </div>
+
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            const searchInput = $("#searchInput");
+            const searchResults = $("#searchResults");
+
+            // Simulated data for demonstration
+            const data = [
+                "Apple",
+                "Banana",
+                "Cherry",
+                "Date",
+                "Grape",
+                "Kiwi",
+                "Lemon",
+                "Orange",
+                "Peach",
+                "Pear",
+                "How to learn JavaScript",
+                "How to build a website",
+                "How to use jQuery",
+                "Search algorithms",
+                "JavaScript frameworks",
+                "Where to learn web development",
+                "Web development tips",
+                "Responsive web design"
+                
+            ];
+
+            searchInput.on("input", function () {
+                const inputValue = searchInput.val().toLowerCase();
+                const filteredData = data.filter(item => item.toLowerCase().includes(inputValue));
+
+                // Clear previous results
+                searchResults.html("");
+
+                // Display new results
+                filteredData.forEach(item => {
+                    const listItem = $("<li></li>").text(item);
+                    listItem.on("click", function () {
+                        searchInput.val(item);
+                        searchResults.hide();
+                    });
+                    searchResults.append(listItem);
+                });
+
+                // Show or hide the results container
+                searchResults.css("display", filteredData.length > 0 ? "block" : "none");
+            });
+
+            // Close the results when clicking outside the search box
+            $(document).on("click", function (event) {
+                if (!searchInput.is(event.target) && !searchResults.is(event.target) && searchResults.has(event.target).length === 0) {
+                    searchResults.hide();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
